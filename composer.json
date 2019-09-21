@@ -1,61 +1,27 @@
 {
-    "type": "project",
-    "license": "proprietary",
+    "type": "symfony-bundle",
+    "name": "cvekcoding/symfony-collection",
+    "description": "Adapter for tightenco/collect bundle to be usable with private and virtual properties in Symfony projects.",
+    "keywords": ["Collection", "Laravel", "Symfony", "PropertyAccess"],
+    "license": "MIT",
     "require": {
         "php": "^7.1.3",
-        "ext-ctype": "*",
-        "ext-iconv": "*",
-        "symfony/console": "4.3.*",
-        "symfony/dotenv": "4.3.*",
-        "symfony/flex": "^1.3.1",
-        "symfony/framework-bundle": "4.3.*",
-        "symfony/yaml": "4.3.*"
+        "tightenco/collect": ">=6.0",
+        "symfony/property-access": ">4",
+        "symfony/cache": ">4"
     },
-    "require-dev": {
-    },
-    "config": {
-        "preferred-install": {
-            "*": "dist"
-        },
-        "sort-packages": true
-    },
+    "authors": [
+        {
+            "name": "Sergey Logachev",
+            "email": "serg@baitek.org"
+        }
+    ],
     "autoload": {
-        "psr-4": {
-            "App\\": "src/"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "App\\Tests\\": "tests/"
-        }
-    },
-    "replace": {
-        "paragonie/random_compat": "2.*",
-        "symfony/polyfill-ctype": "*",
-        "symfony/polyfill-iconv": "*",
-        "symfony/polyfill-php71": "*",
-        "symfony/polyfill-php70": "*",
-        "symfony/polyfill-php56": "*"
-    },
-    "scripts": {
-        "auto-scripts": {
-            "cache:clear": "symfony-cmd",
-            "assets:install %PUBLIC_DIR%": "symfony-cmd"
-        },
-        "post-install-cmd": [
-            "@auto-scripts"
+        "files": [
+          "src/CvekCoding/helpers.php"
         ],
-        "post-update-cmd": [
-            "@auto-scripts"
-        ]
-    },
-    "conflict": {
-        "symfony/symfony": "*"
-    },
-    "extra": {
-        "symfony": {
-            "allow-contrib": false,
-            "require": "4.3.*"
+        "psr-4": {
+            "CvekCoding\\SymfonyCollection\\": "src/CvekCoding"
         }
     }
 }
