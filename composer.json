@@ -2,7 +2,7 @@
     "type": "symfony-bundle",
     "name": "cvekcoding/symfony-collection",
     "description": "Adapter for tightenco/collect bundle to be usable with private and virtual properties in Symfony projects.",
-    "keywords": ["Collection", "Laravel", "Symfony", "PropertyAccess"],
+    "keywords": ["Collection", "Laravel", "Symfony", "PropertyAccess", "tightenco"],
     "license": "MIT",
     "require": {
         "php": "^7.1.3",
