@@ -1,6 +1,6 @@
 {
     "type": "symfony-bundle",
-    "name": "cvekcoding/symfony-collection",
+    "name": "cvek/collection",
     "description": "Adapter for tightenco/collect bundle to be usable with private and virtual properties in Symfony projects.",
     "keywords": ["Collection", "Laravel", "Symfony", "PropertyAccess", "tightenco"],
     "license": "MIT",
@@ -19,11 +19,11 @@
     ],
     "autoload": {
         "files": [
-          "src/CvekCoding/helpers.php"
+          "src/helpers.php"
         ],
         "psr-4": {
-            "Tightenco\\Collect\\Support\\Traits\\": "src/CvekCoding/Traits",
-            "Tightenco\\Collect\\Support\\": "src/CvekCoding"
+            "Tightenco\\Collect\\Support\\Traits\\": "src/Traits",
+            "Tightenco\\Collect\\Support\\": "src"
         }
     }
 }
