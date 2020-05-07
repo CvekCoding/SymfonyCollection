@@ -7,8 +7,8 @@
     "require": {
         "php": "^7.1.3",
         "tightenco/collect": "v6.18.6",
-        "symfony/property-access": "^4",
-        "symfony/cache": "^4",
+        "symfony/property-access": "^4|^5",
+        "symfony/cache": "^4|^5",
         "ext-json": "*"
     },
     "authors": [
