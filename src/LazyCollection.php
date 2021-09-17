@@ -48,28 +48,6 @@ class LazyCollection implements Enumerable
     }
 
     /**
-     * Create a new instance by invoking the callback a given amount of times.
-     *
-     * @param  int  $number
-     * @param  callable  $callback
-     * @return static
-     */
-    public static function times($number, callable $callback = null)
-    {
-        if ($number < 1) {
-            return new static;
-        }
-
-        $instance = new static(function () use ($number) {
-            for ($current = 1; $current <= $number; $current++) {
-                yield $current;
-            }
-        });
-
-        return is_null($callback) ? $instance : $instance->map($callback);
-    }
-
-    /**
      * Create an enumerable with the given range.
      *
      * @param  int  $from
@@ -1021,7 +999,7 @@ class LazyCollection implements Enumerable
      * @param  callable|null  $callback
      * @return static
      */
-    public function sort(callable $callback = null)
+    public function sort($callback = null)
     {
         return $this->passthru('sort', func_get_args());
     }
@@ -1072,6 +1050,35 @@ class LazyCollection implements Enumerable
     public function sortKeysDesc($options = SORT_REGULAR)
     {
         return $this->passthru('sortKeysDesc', func_get_args());
+    }
+
+    /**
+     * Count the number of items in the collection by a field or using a callback.
+     *
+     * @param  callable|string  $countBy
+     * @return static
+     */
+    public function countBy($countBy = null)
+    {
+        $countBy = is_null($countBy)
+            ? $this->identity()
+            : $this->valueRetriever($countBy);
+
+        return new static(function () use ($countBy) {
+            $counts = [];
+
+            foreach ($this as $key => $value) {
+                $group = $countBy($value, $key);
+
+                if (empty($counts[$group])) {
+                    $counts[$group] = 0;
+                }
+
+                $counts[$group]++;
+            }
+
+            yield from $counts;
+        });
     }
 
     /**
