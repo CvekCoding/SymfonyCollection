@@ -1260,4 +1260,90 @@ class LazyCollection implements Enumerable
             yield from $this->collect()->$method(...$params);
         });
     }
+
+    public function skipUntil($value)
+    {
+        $callback = $this->useAsCallable($value) ? $value : $this->equality($value);
+
+        return $this->skipWhile($this->negate($callback));
+    }
+
+    public function skipWhile($value)
+    {
+        $callback = $this->useAsCallable($value) ? $value : $this->equality($value);
+
+        return new static(function () use ($callback) {
+            $iterator = $this->getIterator();
+
+            while ($iterator->valid() && $callback($iterator->current(), $iterator->key())) {
+                $iterator->next();
+            }
+
+            while ($iterator->valid()) {
+                yield $iterator->key() => $iterator->current();
+
+                $iterator->next();
+            }
+        });
+    }
+
+    public function chunkWhile(callable $callback)
+    {
+        return new static(function () use ($callback) {
+            $iterator = $this->getIterator();
+
+            $chunk = new Collection;
+
+            if ($iterator->valid()) {
+                $chunk[$iterator->key()] = $iterator->current();
+
+                $iterator->next();
+            }
+
+            while ($iterator->valid()) {
+                if (! $callback($iterator->current(), $iterator->key(), $chunk)) {
+                    yield new static($chunk);
+
+                    $chunk = new Collection;
+                }
+
+                $chunk[$iterator->key()] = $iterator->current();
+
+                $iterator->next();
+            }
+
+            if ($chunk->isNotEmpty()) {
+                yield new static($chunk);
+            }
+        });
+    }
+
+    public function sortDesc($options = SORT_REGULAR)
+    {
+        return $this->passthru('sortDesc', func_get_args());
+    }
+
+    public function takeUntil($value)
+    {
+        $callback = $this->useAsCallable($value) ? $value : $this->equality($value);
+
+        return new static(function () use ($callback) {
+            foreach ($this as $key => $item) {
+                if ($callback($item, $key)) {
+                    break;
+                }
+
+                yield $key => $item;
+            }
+        });
+    }
+
+    public function takeWhile($value)
+    {
+        $callback = $this->useAsCallable($value) ? $value : $this->equality($value);
+
+        return $this->takeUntil(function ($item, $key) use ($callback) {
+            return ! $callback($item, $key);
+        });
+    }
 }
