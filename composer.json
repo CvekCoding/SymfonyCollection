@@ -6,7 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "^7.2|^8.0",
-        "tightenco/collect": "^8.0",
+        "tightenco/collect": "8.34.0",
         "symfony/property-access": "^4|^5",
         "symfony/cache": "^4|^5",
         "ext-json": "*"
